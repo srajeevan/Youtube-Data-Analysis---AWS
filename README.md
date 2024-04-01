@@ -6,10 +6,9 @@ This project aims to securely manage, streamline, and perform analysis on the st
 
 ## Project Goals
 1. Data Ingestion — Build a mechanism to ingest data from different sources.
-2. ETL System — We are getting data in raw format, transforming this data into the proper format
-3. Data lake — We will be getting data from multiple sources so we need centralized repo to store them
-4. Cloud — We can’t process vast amounts of data on our local computer so we need to use the cloud, in this case, we will use AWS
-5. Reporting — Build a dashboard to get answers to the question we asked earlier
+2. Data lake — We will be getting data from multiple sources so we need centralized repo to store them
+3. ETL System — We are getting data in raw format, transforming this data into the proper format
+4. Reporting — Build a dashboard to get answers to the question we asked earlier
 
 ## Services we will be using
 1. Amazon S3: Amazon S3 is an object storage service that provides manufacturing scalability, data availability, security, and performance.
@@ -104,4 +103,38 @@ We also added trigger to the AWS Lambda so that whenever a new json file gets ad
 ![AWS Trigger config](https://github.com/srajeevan/Youtube-Data-Analysis---AWS/blob/main/Assets/Lambda%20Trigger%20config.png)
 
 For the CVS files to be cleansed and added to the new cleansed S3 location, we will be using AWS Glue Visual ETL.
+
+In the AWS Glue console, select Visual ETL where we added a data source node, transformation node and a target node.
+
+![AWS Glue ETL](https://github.com/srajeevan/Youtube-Data-Analysis---AWS/blob/main/Assets/AWS_Glue_ETL.png)
+
+For the dat source node, we choose the AWS Glue Catelog and configure to use the raw cvs files as the source.
+In the transformation section we choose the datatypes for the fields etc.
+In the targte node, we choose the cleaned S3 bucket location and that is where the parquert files will be stored.
+Once we set up the visual ETL it will create the script for the ETL. 
+
+Now we have the cleaned data in the separate S3 bucket which we can use for different reporting purposes.
+As an additional step we can even create another ETL which will establish the join between these two cleaned tables and save that in a another S3 bucket which can be provided to the reporting team.
+Implementing the joins and storing the final data set for analytics purpose can reduce the compute overhead or can help if the reporting analysts are not technical persons.
+Remember to create another Glue crawler to create a Glue Data Catalog for these cleaned data sets. 
+
+Lets create another ETL which gets data from those two cleaned dataset with joins and move that to a final analytics s3 bucket.
+This is how the ETL job looks like.
+
+![Analytics ETL](https://github.com/srajeevan/Youtube-Data-Analysis---AWS/blob/main/Assets/final_etl.png)
+
+Run this ETL job and then the joined dataset gets stored to the final analytics S3 bucket.
+
+** Step 4** <br/>
+## Reporting
+Once you have this analytics data set you can create dashboads for repoting using AWS Quicksight.
+Sign up for the standard version and create dataset by giving permissions to the analytics S3 bucket and by connecting to the Athena.
+
+![Analytics dataset](https://github.com/srajeevan/Youtube-Data-Analysis---AWS/blob/main/Assets/quicksight_dataset.png)
+
+Then create dashbaords by creating individual vizualizations.
+Here is an exmaple of a dashboard that i created.
+![Analytics Dashboard](https://github.com/srajeevan/Youtube-Data-Analysis---AWS/blob/main/Assets/quicksight_dashboard.png)
+
+Thank you.
 
