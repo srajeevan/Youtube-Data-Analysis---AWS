@@ -25,6 +25,7 @@ https://www.kaggle.com/datasets/datasnaek/youtube-new
 
 ## Architecture Diagram
 
+![Architecture Diagram](https://github.com/srajeevan/Youtube-Data-Analysis---AWS/blob/main/Assets/architecture_diagram.jpeg)
 
 **Step 1** <br/>
 ## Data Ingestion
